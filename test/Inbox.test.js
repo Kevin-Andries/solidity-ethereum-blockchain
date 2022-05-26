@@ -1,7 +1,7 @@
 const assert = require("assert");
 const ganache = require("ganache");
 const Web3 = require("web3");
-const { interface, bytecode } = require("../compile");
+const { abi, evm } = require("../compile");
 
 const web3 = new Web3(ganache.provider());
 
@@ -15,9 +15,9 @@ beforeEach(async () => {
 
 	// Use one of those account to deploy the contract
 
-	inbox = await new web3.eth.Contract(JSON.parse(interface))
+	inbox = await new web3.eth.Contract(abi)
 		.deploy({
-			data: bytecode,
+			data: evm.bytecode.object,
 			arguments: [INITIAL_STRING],
 		})
 		.send({ from: accounts[0], gas: "1000000" });
